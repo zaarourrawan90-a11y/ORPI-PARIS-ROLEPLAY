@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORPI RP - Immobilier de Luxe</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+body {margin:0;font-family:'Poppins',sans-serif;background:#0b0b0b;color:#fff}
+header {background:linear-gradient(90deg,#8b0000,#ff1a1a);padding:25px;text-align:center;font-size:30px;font-weight:700;letter-spacing:1px}
+nav {display:flex;justify-content:center;background:#111;border-bottom:1px solid #222}
+nav a {color:#fff;padding:15px 25px;text-decoration:none;transition:0.3s}
+nav a:hover {background:#ff1a1a}
+.section {padding:60px 20px;text-align:center}
+.cards {display:flex;flex-wrap:wrap;justify-content:center}
+.card {background:#141414;padding:25px;margin:15px;border-radius:20px;width:260px;box-shadow:0 0 15px rgba(255,0,0,0.2);transition:0.3s}
+.card:hover {transform:translateY(-5px)}
+button {background:#ff1a1a;border:none;padding:12px 20px;color:#fff;border-radius:10px;cursor:pointer;transition:0.3s}
+button:hover {background:#cc0000}
+input {padding:10px;width:250px;border-radius:8px;border:none;margin:5px}
+footer {background:#000;text-align:center;padding:20px;color:#777}
+.badge {background:#ff1a1a;padding:5px 10px;border-radius:8px;font-size:12px}
+</style>
+</head>
+<body>
+
+<header>ORPI RP - Immobilier de Luxe</header>
+
+<nav>
+<a href="#">Accueil</a>
+<a href="#biens">Biens</a>
+<a href="#rdv">Rendez-vous</a>
+<a href="#employe">Espace Employé</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<div class="section">
+<h1>Bienvenue chez ORPI RP</h1>
+<p>Agence immobilière haut de gamme sur GTA RP</p>
+</div>
+
+<div class="section" id="biens">
+<h2>Biens disponibles</h2>
+<div class="cards" id="biensList"></div>
+</div>
+
+<div class="section" id="rdv">
+<h2>Prendre rendez-vous</h2>
+<form id="rdvForm">
+<input type="text" id="nom" placeholder="Nom" required><br>
+<input type="text" id="numero" placeholder="Numéro" required><br>
+<input type="date" id="date" required><br>
+<button type="submit">Réserver</button>
+</form>
+<p id="confirmation"></p>
+</div>
+
+<div class="section" id="employe">
+<h2>Espace Employé 🔐</h2>
+<input type="password" id="mdp" placeholder="Mot de passe">
+<button onclick="login()">Connexion</button>
+<p id="acces"></p>
+</div>
+
+<div class="section" id="contact">
+<h2>Contact</h2>
+<p>Discord : ORPI RP</p>
+<p>Téléphone : 555-ORPI</p>
+</div>
+
+<footer>© 2026 ORPI RP - Tous droits réservés</footer>
+
+<script>
+// BIENS DYNAMIQUES
+const biens = [
+ {nom:"Villa Vinewood", prix:"500 000$", statut:"Disponible"},
+ {nom:"Appartement Del Perro", prix:"250 000$", statut:"Disponible"},
+ {nom:"Maison Rockford Hills", prix:"750 000$", statut:"Luxe"}
+];
+
+const list = document.getElementById('biensList');
+biens.forEach(b => {
+ let card = document.createElement('div');
+ card.className = 'card';
+ card.innerHTML = `<h3>${b.nom}</h3><p>${b.prix}</p><span class='badge'>${b.statut}</span><br><br><button onclick="alerte()">Visiter</button>`;
+ list.appendChild(card);
+});
+
+function alerte(){alert("Contactez un agent ORPI en RP !")}
+
+// RDV + DISCORD WEBHOOK
+const webhook = "COLLE_TON_WEBHOOK_DISCORD_ICI";
+
+document.getElementById('rdvForm').addEventListener('submit', function(e){
+ e.preventDefault();
+ let nom = document.getElementById('nom').value;
+ let numero = document.getElementById('numero').value;
+ let date = document.getElementById('date').value;
+ 
+ document.getElementById('confirmation').innerText = "✅ Rendez-vous enregistré !";
+
+ fetch(webhook, {
+  method: "POST",
+  headers: {"Content-Type": "application/json"},
+  body: JSON.stringify({content:`📅 Nouveau RDV ORPI\nNom: ${nom}\nNuméro: ${numero}\nDate: ${date}`})
+ });
+});
+
+// ESPACE EMPLOYE
+function login(){
+ let mdp = document.getElementById('mdp').value;
+ if(mdp === "orpi2026"){
+  document.getElementById('acces').innerText = "✅ Accès autorisé";
+ } else {
+  document.getElementById('acces').innerText = "❌ Refusé";
+ }
+}
+</script>
+
+</body>
+</html>
+
+
